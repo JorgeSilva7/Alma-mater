@@ -54,44 +54,154 @@
             <div class="row row-grid">
               <div class="col-lg-4">
                 <card class="border-0" hover shadow body-classes="py-5">
+                  <icon name="ni ni-hat-3" type="default" rounded class="mb-4"></icon>
+                  <h6 class="text-default text-uppercase">Universidades y Carreras involucradas</h6>
+                  <p class="description mt-3">
+                    Los datos reunidos corresponden a las universidades pertenecientes al CRUCH y las carreras
+                    que se toman en cuenta son las mas elegidas por los estudiantes chilenos según la prensa nacional.
+                  </p>
+                  <base-button
+                    block
+                    type="default"
+                    class="mb-2"
+                    @click="modals.universidades = true"
+                  >Ver Universidades</base-button>
+                  <base-button
+                    block
+                    type="default"
+                    class="mb-2"
+                    @click="modals.carreras = true"
+                  >Ver Carreras</base-button>
+                </card>
+              </div>
+              <div class="col-lg-4">
+                <card class="border-0" hover shadow body-classes="py-5">
                   <icon name="ni ni-check-bold" type="primary" rounded class="mb-4"></icon>
                   <h6 class="text-primary text-uppercase">Eleccion de caracteristicas</h6>
                   <p class="description mt-3">
                     Se realizó un cuestionario web para determinar las 5 caracteristicas mas relevantes
                     a la hora de elegir una universidad.
                   </p>
-                  <base-button tag="a" target="_blank" href="https://forms.gle/5uVYB6NYRUVdRjSo6" type="primary" class="mt-4">Acceso a la Encuesta</base-button>
+                  <base-button
+                    tag="a"
+                    target="_blank"
+                    href="https://forms.gle/5uVYB6NYRUVdRjSo6"
+                    type="primary"
+                    class="mt-4"
+                  >Acceso a la Encuesta</base-button>
                 </card>
               </div>
               <div class="col-lg-4">
                 <card class="border-0" hover shadow body-classes="py-5">
-                  <icon name="ni ni-istanbul" type="success" rounded class="mb-4"></icon>
+                  <icon name="ni ni-sound-wave" type="success" rounded class="mb-4"></icon>
                   <h6 class="text-success text-uppercase">Recoleccion y manejo de datos</h6>
                   <p class="description mt-3">
                     Proceso en el cual se recolectaron todos los datos relacionados a las 5 caracteristicas mas relevantes
                     para luego determinar los distintos puntajes en cada item por universidad.
                   </p>
-                  <base-button tag="a" target="_blank" href="https://docs.google.com/spreadsheets/d/1KdvloNuEjrxjkIjWlu97vWzn6tJ7HPOOQQvcF_ZdZMU/edit#gid=1775782665" type="success" class="mt-4">Ver recoleccion y manejo</base-button>
+                  <base-button
+                    tag="a"
+                    target="_blank"
+                    href="https://docs.google.com/spreadsheets/d/1KdvloNuEjrxjkIjWlu97vWzn6tJ7HPOOQQvcF_ZdZMU/edit#gid=1775782665"
+                    type="success"
+                    class="mt-4"
+                  >Ver recoleccion y manejo</base-button>
                 </card>
               </div>
-              <div class="col-lg-4">
-                <card class="border-0" hover shadow body-classes="py-5">
-                  <icon name="ni ni-planet" type="warning" rounded class="mb-4"></icon>
-                  <h6 class="text-warning text-uppercase">Desarrollo de Algoritmo recomendador</h6>
-                  <p class="description mt-3">
-                    Finalmente, se implementa un algoritmo recomendador basado en semejanza.Se basa principalmente en
-                    comparar su resultado de la encuesta versus el puntaje de cada item de las universidades en este proyecto,
-                    y asi mostrar las mas adecuadas.
-                  </p>
-
-                  <base-button tag="a" href="#" type="warning" class="mt-4">Ver Codigo Fuente</base-button>
-                </card>
+              <div class="row text-center justify-content-center">
+                <div class="col-lg-6">
+                  <card class="border-0" hover shadow body-classes="py-5">
+                    <icon name="ni ni-planet" type="warning" rounded class="mb-5"></icon>
+                    <h6 class="text-warning text-uppercase">Desarrollo de Algoritmo recomendador</h6>
+                    <p class="description mt-3">
+                      Finalmente, se implementa un algoritmo recomendador basado en semejanza.Se basa principalmente en
+                      comparar su resultado de la encuesta versus el puntaje de cada item de las universidades en este proyecto,
+                      y asi mostrar las mas adecuadas.
+                    </p>
+                    <base-button
+                      tag="a"
+                      target="_blank"
+                      href="https://github.com/JorgeSilva7/Alma-mater"
+                      type="warning"
+                      class="mt-4"
+                    >Ver Codigo Fuente</base-button>
+                  </card>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <modal :show.sync="modals.universidades">
+      <h6 slot="header" class="modal-title" id="modal-title-default">Listado de Universidades</h6>
+      <!-- <ul id>
+        <li v-for="universidad in universidades" v-bind:key="universidad.id">{{ universidad.name }}</li>
+      </ul>-->
+      <badger-accordion :options="{openMultiplePanels: true}">
+        <badger-accordion-item
+          v-for="(universidad, index) in universidades"
+          v-bind:key="universidad.id"
+        >
+          <template slot="header">
+            <h6 style="font-weight: bold;">{{index+1}}.- {{ universidad.name }}</h6>
+          </template>
+          <template slot="content">
+            <card>
+              <div class="row">
+                <div class="col-3">
+                  <img
+                    alt="Rounded image"
+                    class="img-fluid rounded shadow"
+                    :src="universidad.urlEscudo"
+                    lazy="loaded"
+                    style="width: 150px;"
+                  >
+                </div>
+                <div class="col-9">
+                  <h4>
+                    <strong>{{ universidad.name }}</strong>
+                  </h4>
+                  <strong>Tipo de institución:</strong>
+                  {{ universidad.isPrivate == 0 ? 'Pública' : 'Privada'}}
+                  <br>
+                  <strong>Ubicación:</strong>
+                  Región {{ utils.obtenerNombreRegion(universidad.region) }}
+                  <a
+                    target="_blank"
+                    :href="'http://maps.google.com/maps?z=12&t=m&q=loc:'+universidad.lat+'+'+universidad.lng"
+                  >(Ver en google maps)</a>
+                  <br>
+                  <strong>Página web:</strong>
+                  <a target="_blank" :href="universidad.url">{{ universidad.url }}</a>
+                  <br>
+                  <strong>Ranking Universitas 2018:</strong>
+                  {{ universidad.rankUniver }}
+                  <br>
+                  <strong>Años de Acreditación:</strong>
+                  {{ universidad.anosAcr}}
+                  <br>
+                </div>
+              </div>
+            </card>
+          </template>
+        </badger-accordion-item>
+      </badger-accordion>
+      <template slot="footer">
+        <base-button type="link" class="ml-auto" @click="modals.universidades = false">Cerrar</base-button>
+      </template>
+    </modal>
+
+    <modal :show.sync="modals.carreras">
+      <h6 slot="header" class="modal-title" id="modal-title-default">Listado de Carreras</h6>
+      <ul id>
+        <li v-for="carrera in carreras" v-bind:key="carrera.id">{{ carrera.name }}</li>
+      </ul>
+     <template slot="footer">
+        <base-button type="link" class="ml-auto" @click="modals.carreras = false">Cerrar</base-button>
+      </template>
+    </modal>
 
     <section class="section section-shaped my-0 overflow-hidden">
       <div class="shape shape-style-3 bg-gradient-default shape-skew">
@@ -568,6 +678,9 @@ import { BadgerAccordion, BadgerAccordionItem } from "vue-badger-accordion";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 import Recomendacion from "./components/Recomendacion";
+import Modal from "../components/Modal";
+
+var utils = require("../plugins/utils");
 
 export default {
   name: "home",
@@ -575,10 +688,12 @@ export default {
     BadgerAccordion,
     BadgerAccordionItem,
     Loading,
-    Recomendacion
+    Recomendacion,
+    Modal
   },
   data() {
     return {
+      utils: utils,
       name: "",
       cercania: 0,
       anosAcreditacion: 0,
@@ -599,6 +714,10 @@ export default {
       isLoading: false,
       recomendaciones: [],
       recomendacionesHechas: false,
+      modals: {
+        universidades: false,
+        carreras: false
+      }
     };
   },
   async mounted() {
