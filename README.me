@@ -1,0 +1,27 @@
+He aqui el codigo fuente tanto del servicio (backend) como del cliente web (frontend)
+
+Proyecto desarrollado por:
+Jorge Silva
+Carlos Valenzuela
+Sebastian Gonzalez
+Victor Esparza
+
+Estudiantes Ingeniería Civil Informatica.
+
+El backend esta desarrollado en JAVA con el framework SPRING BOOT.
+El frontend esta desarrollado en JAVASCRIPT con el framework VUE.JS
+
+Si desea ejecutar en su computador el backend (servicio) debe tener instalado maven y ejecutar lo siguiente en la carpeta raiz de backend:
+mvn spring-boot:run
+
+Si desea implementar en su computador el cliente web (frontend) debe tener instalado node.js, yarn/npm y vue-cli. Luego en la carpeta raiz de frontend:
+yarn
+yarn run serve
+
+En la carpeta del backend esta la data en los .csv de todas formas se recomienda utilizar  la base de datos ya funcional en linea.
+Para esto, hay que agregar un archivo en la carpeta \backend\src\main\resources llamado application.properties en el cual se debe agregar:
+spring.datasource.url=jdbc:mysql://www.softultra.cl:3306/almamater?serverTimezone=UTC
+spring.datasource.username=softultra_read
+spring.datasource.password=Soft.Ultra.Read
+
+con esto ya debería funciona el servicio por completo
